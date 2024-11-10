@@ -6,12 +6,11 @@ from psycopg.rows import dict_row
 # This class helps us interact with the database.
 # It wraps the underlying psycopg library that we are using.
 
-# If the below seems too complex right now, that's OK.
-# That's why we have provided it!
+
 class DatabaseConnection:
-    # VVV CHANGE BOTH OF THESE VVV
-    DEV_DATABASE_NAME = "makersbnb_db"
-    TEST_DATABASE_NAME = "makersbnb_test_db"
+
+    DEV_DATABASE_NAME = "task_manager"
+    TEST_DATABASE_NAME = "task_manager_test"
 
     def __init__(self, test_mode=False):
         self.test_mode = test_mode
