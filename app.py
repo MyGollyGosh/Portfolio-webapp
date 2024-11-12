@@ -1,16 +1,4 @@
 import os
-from flask import Flask, request, render_template
+from flask import Flask
 
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
+app = Flask(__name__)
