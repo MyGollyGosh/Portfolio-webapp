@@ -30,8 +30,8 @@ CREATE TABLE tasks (
 
 -- Seed data for users
 INSERT INTO users (username, email, password_hash) VALUES
-    ('johndoe', 'johndoe@example.com', 'hashedpassword1'),
-    ('janedoe', 'janedoe@example.com', 'hashedpassword2');
+    ('johndoe', 'johndoe@example.com', 'Password!1'),
+    ('janedoe', 'janedoe@example.com', 'Password!2');
 
 -- Seed data for tasks
 INSERT INTO tasks (user_id, description, due_date, date_added, priority, status) VALUES
