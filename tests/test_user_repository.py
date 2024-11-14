@@ -75,4 +75,70 @@ def test_invalid_password_returns_error(db_connection):
         User('janedoe', 'janedoe@example.com', 'Password!2', 2)
         ]
 
+'''
+Given an id
+#get_by_id returns the user with that id
+'''
+def test_get_by_id_returns_user(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.get_by_id(2) == User('janedoe', 'janedoe@example.com', 'Password!2', 2)
 
+'''
+Given an id that does not exist
+#get_by_id returns message saying no user
+'''
+def test_no_valid_id_returns_message(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.get_by_id(3) == 'No user with id 3 found'
+
+'''
+Given an existing username and password
+#validate_user returns True
+'''
+def test_valid_user_is_validated(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.validate_user('johndoe', 'Password!1') == True
+
+'''
+Given an invalid username and valid password
+#validate_user returns False
+'''
+def test_invalid_username_is_not_validated(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.validate_user('jimothydoe', 'Password!1') == False
+
+'''
+Given a valid username and invalid password
+#validate_user returns False
+'''
+def test_invalid_password_is_not_validated(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.validate_user('johndoe', 'Password!') == False
+
+'''
+Given an ID
+#delete_by_id will remove the user with that ID from the DB
+'''
+def test_delete_with_id_removes_user(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    repo.delete_by_id(1)
+    assert repo.get_by_id(1) == 'No user with id 1 found'
+    assert repo.all() == [
+        User('janedoe', 'janedoe@example.com', 'Password!2', 2)
+        ]
+    
+'''
+Given an ID that doesn't exist
+#delete_by_id returns an error message
+'''
+def test_invalid_id_gives_error(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    assert repo.delete_by_id(3) == 'No user with id 3 found'
+    
