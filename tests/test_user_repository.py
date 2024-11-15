@@ -91,7 +91,9 @@ Given an id that does not exist
 def test_no_valid_id_returns_message(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = UserRepository(db_connection)
-    assert repo.get_by_id(3) == 'No user with id 3 found'
+    with pytest.raises(IndexError) as e:
+        repo.get_by_id(3)
+    assert str(e.value) == 'No user with id 3 found'
 
 '''
 Given an existing username and password
@@ -127,8 +129,7 @@ Given an ID
 def test_delete_with_id_removes_user(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = UserRepository(db_connection)
-    repo.delete_by_id(1)
-    assert repo.get_by_id(1) == 'No user with id 1 found'
+    assert repo.delete_by_id(1) == 'User with id 1 successfully deleted'
     assert repo.all() == [
         User('janedoe', 'janedoe@example.com', 'Password!2', 2)
         ]
@@ -140,5 +141,39 @@ Given an ID that doesn't exist
 def test_invalid_id_gives_error(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = UserRepository(db_connection)
-    assert repo.delete_by_id(3) == 'No user with id 3 found'
-    
+    with pytest.raises(IndexError) as e:
+        repo.delete_by_id(3)
+    assert str(e.value) == 'No user with id 3 found'
+
+'''
+Given a valid password and id
+#update_user changes the password
+'''
+def test_valid_password_is_changed(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    repo.update_user('Password#2', 2)
+    assert repo.get_by_id(2).password == 'Password#2'
+
+'''
+Given an invalid password and valid id
+#update_user does not change password
+and returns error message stating so
+'''
+def test_invalid_password_is_not_changed(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.update_user('Password2', 2)
+    assert str(e.value) == 'Password could not be changed: Invalid password'
+
+'''
+Given a valid password and an invalid ID
+#update_user returns an error
+'''
+def test_invalid_id_gives_error_on_update(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.update_user('Password#2', 20)
+    assert str(e.value) == f'Password could not be changed: No user found'
