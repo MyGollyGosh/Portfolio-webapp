@@ -12,7 +12,7 @@ class UserRepository:
         try:
             user = self._connection.execute('SELECT * FROM users WHERE id = %s', (id,))[0]
         except:
-            return f'No user with id {id} found'
+            raise IndexError(f'No user with id {id} found')
         else:
             return User(user['username'], user['email'], user['password_hash'], user['id'])
         
@@ -30,7 +30,20 @@ class UserRepository:
         return f"{user} was successfully created"
     
     def delete_by_id(self, id) -> str:
-        if self._connection.execute('DELETE FROM users WHERE id = %s', (id,)):
+        user = self.get_by_id(id)
+        if user != IndexError:
+            self._connection.execute('DELETE FROM users WHERE id = %s', (id,))
             return f'User with id {id} successfully deleted'
         else:
             return f'No user with id {id} found'
+        
+    def update_user(self, password, id) -> str:
+        try:
+            user = self.get_by_id(id)
+            user.check_valid_password(password)
+            self._connection.execute('UPDATE users SET password_hash = %s WHERE id = %s', [password, id])
+            return f'User with id {id} successfully changed password'
+        except IndexError:
+            raise ValueError('Password could not be changed: No user found')
+        except ValueError as e:
+            raise ValueError(f'Password could not be changed: {str(e)}')
