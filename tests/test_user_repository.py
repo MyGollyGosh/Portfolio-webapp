@@ -176,4 +176,4 @@ def test_invalid_id_gives_error_on_update(db_connection):
     repo = UserRepository(db_connection)
     with pytest.raises(ValueError) as e:
         repo.update_user('Password#2', 20)
-    assert str(e.value) == f'Password could not be changed: No user found'
+    assert str(e.value) == 'Password could not be changed: No user found'
