@@ -158,7 +158,7 @@ def test_valid_password_is_changed(db_connection):
 '''
 Given an invalid password and valid id
 #update_user does not change password
-and returns error message stating so
+and returns error stating so
 '''
 def test_invalid_password_is_not_changed(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
@@ -169,7 +169,8 @@ def test_invalid_password_is_not_changed(db_connection):
 
 '''
 Given a valid password and an invalid ID
-#update_user returns an error
+#update_user does not change password
+and returns error stating so
 '''
 def test_invalid_id_gives_error_on_update(db_connection):
     db_connection.seed('seeds/task_seeds.sql')

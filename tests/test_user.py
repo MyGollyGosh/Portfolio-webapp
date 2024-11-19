@@ -4,7 +4,7 @@ import pytest
 
 '''
 Given a username, email and password
-a User class is initialisted
+a User object is initialisted
 '''
 def test_init():
     user = User('username', 'email@example.com', 'Password!1')
