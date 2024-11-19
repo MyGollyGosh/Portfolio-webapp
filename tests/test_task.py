@@ -34,7 +34,7 @@ def test_description_not_string_gives_error():
     assert str(e.value) == 'Description must be a string'
 
 '''
-Given a validf set of parameters except no user_id
+Given a valid set of parameters except no user_id
 an error is raised
 '''
 def test_no_user_id_gives_error():
@@ -44,17 +44,57 @@ def test_no_user_id_gives_error():
 
 def test_str_user_id_gives_error():
     with pytest.raises(TypeError) as e:
-        Task(None, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
+        Task('Hi', 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
     assert str(e.value) == 'Ensure valid user id (int)'
 
 '''
-Given valid parameters with invalid user_id
+Given a valid set of parameters except due date 
 an error is raised
 '''
-def _test_invalid_user_id_gives_error(db_connection):
-    db_connection.seed('seeds/task_seeds.sql')
-    with pytest.raises(ValueError) as e:
-        Task(3, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
-    assert str(e.value) == 'No user with id 3 found'
+def test_incorrect_data_type_for_due_date_gives_error():
+    with pytest.raises(TypeError) as e:
+        Task(2, 'Pass this test', 2024-11-19, '2024-11-18 HH:MI:SS', 1, 'Complete')
+    assert str(e.value) == 'Ensure valid due_date (str YYYY-MM-DD)'
+
+'''
+Given a valid set of parameters except date added
+an error is raised
+'''
+def test_incorrect_data_type_for_date_added_gives_error():
+    with pytest.raises(TypeError) as e:
+        Task(2, 'Pass this test', '2024-11-19', 2024-11-19, 1, 'Complete')
+    assert str(e.value) == 'Ensure valid date_added (str YYYY-MM-DD HH-MI-SS)'
+
+'''
+Given a valid set of parameters except priority
+an error is raised
+'''
+def test_incorrect_data_type_for_priority_gives_error():
+    with pytest.raises(TypeError) as e:
+        Task(2, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', '1', 'Complete')
+    assert str(e.value) == 'Ensure valid priority (int 1-5)'
 
 
+'''
+Given a valid set of parameters except status
+an error is raised
+'''
+def test_incorrect_data_type_for_status_gives_error():
+    with pytest.raises(TypeError) as e:
+        Task(2, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 1)
+    assert str(e.value) == 'Ensure valid status (str)'
+
+'''
+test equality
+'''
+def test_equality():
+    task1 = Task(2, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
+    task2 = Task(2, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
+    assert task1 == task2
+
+'''
+test formatting
+'''
+def test_formatting():
+    task = Task(2, 'Pass this test', '2024-11-19', '2024-11-18 HH:MI:SS', 1, 'Complete')
+    assert str(task) == "Task(2, Pass this test, 2024-11-19, 2024-11-18 HH:MI:SS, 1, Complete, None)"
