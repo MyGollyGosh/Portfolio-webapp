@@ -1,4 +1,4 @@
-
+from datetime import datetime, date
 
 class Task:
     def __init__(self, user_id, description, due_date, date_added, priority, status, id=None):
@@ -35,13 +35,13 @@ class Task:
 
         
     def check_valid_due_date(self, due_date) -> None:
-        if type(due_date) != str:
-            raise TypeError('Ensure valid due_date (str YYYY-MM-DD)')
+        if not isinstance(due_date, date):
+            raise TypeError('Ensure valid due_date (date(YYYY, MM, DD))')
 
         
     def check_valid_date_added(self, date_added) -> None:
-        if type(date_added) != str:
-            raise TypeError('Ensure valid date_added (str YYYY-MM-DD HH-MI-SS)')
+        if not isinstance(date_added, datetime):
+            raise TypeError('Ensure valid date_added (datetime(YYYY,MM,DD, HH,MI,SS))')
 
 
     def check_valid_priority(self, priority) -> None:
