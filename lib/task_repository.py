@@ -15,3 +15,15 @@ class TaskRepository:
             raise IndexError(f'No task with id {id} found')
         else:
             return Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status'])
+        
+    def add_task(self, user_id, description, due_date, priority, status):
+        self._connection.execute(
+            '''INSERT INTO tasks (
+                user_id, 
+                description, 
+                due_date, 
+                priority, 
+                status
+            ) VALUES (%s, %s, %s, %s, %s)''', 
+            [user_id, description, due_date, priority, status]
+        )

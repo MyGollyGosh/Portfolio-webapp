@@ -54,3 +54,20 @@ def test_again_different_invalid_task_id_gives_error(db_connection):
     with pytest.raises(IndexError) as e:
         repo.get_by_task_id('hi')
     assert str(e.value) == 'No task with id hi found'
+
+'''
+given valid parameters 
+#add_task puts an extra task in the db
+'''
+def test_add_task_adds_to_db(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.add_task(2, 'a new task', date(2024, 11, 21), 2, 'in-progress')
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), tasks[1].date_added, 2, 'in-progress'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed'),
+        Task(2, 'a new task', date(2024, 11, 21), tasks[4].date_added, 2, 'in-progress')
+    ]
