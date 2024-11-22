@@ -71,3 +71,48 @@ def test_add_task_adds_to_db(db_connection):
         Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed'),
         Task(2, 'a new task', date(2024, 11, 21), tasks[4].date_added, 2, 'in-progress')
     ]
+
+'''
+given an invalid param
+an apprioriate error is returned
+'''
+def test_invalid_user_id_doesnt_add(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(AttributeError) as e:
+        repo.add_task(100, 'a new task', date(2024, 11, 21), 2, 'in-progress')
+    assert str(e.value) == 'Invalid user_id: 100'
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), tasks[1].date_added, 2, 'in-progress'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
+    ]
+def test_again_invalid_user_id_doesnt_add(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(AttributeError) as e:
+        repo.add_task(-100, 'a new task', date(2024, 11, 21), 2, 'in-progress')
+    assert str(e.value) == 'Invalid user_id: -100'
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), tasks[1].date_added, 2, 'in-progress'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
+    ]
+def test_once_again_invalid_user_id_doesnt_add(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(AttributeError) as e:
+        repo.add_task('-100', 'a new task', date(2024, 11, 21), 2, 'in-progress')
+    assert str(e.value) == 'Invalid user_id: -100'
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), tasks[1].date_added, 2, 'in-progress'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
+    ]
+
