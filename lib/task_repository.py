@@ -1,4 +1,5 @@
 from lib.task import Task
+from lib.user_repository import UserRepository
 
 class TaskRepository:
     def __init__(self, connection):
@@ -17,13 +18,21 @@ class TaskRepository:
             return Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status'])
         
     def add_task(self, user_id, description, due_date, priority, status):
-        self._connection.execute(
-            '''INSERT INTO tasks (
-                user_id, 
-                description, 
-                due_date, 
-                priority, 
-                status
-            ) VALUES (%s, %s, %s, %s, %s)''', 
-            [user_id, description, due_date, priority, status]
-        )
+        try:
+            user = UserRepository(self._connection)
+            user.get_by_id(user_id)
+            if type(description) is not str:
+                raise TypeError('Description must be a string')
+            self._connection.execute(
+                '''INSERT INTO tasks (
+                    user_id, 
+                    description, 
+                    due_date, 
+                    priority, 
+                    status
+                ) VALUES (%s, %s, %s, %s, %s)''', 
+                [user_id, description, due_date, priority, status]
+            )
+        except:
+            raise AttributeError(f'Invalid user_id: {user_id}')
+
