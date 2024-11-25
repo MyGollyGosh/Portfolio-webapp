@@ -1,5 +1,6 @@
-from lib.task import Task
+from lib.task import *
 from lib.user_repository import UserRepository
+from datetime import date, datetime
 
 class TaskRepository:
     def __init__(self, connection):
@@ -17,12 +18,10 @@ class TaskRepository:
         else:
             return Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status'])
         
-    def add_task(self, user_id, description, due_date, priority, status):
+    def add_task(self, user_id, description, due_date, priority, status) -> None:
         try:
             user = UserRepository(self._connection)
             user.get_by_id(user_id)
-            if type(description) is not str:
-                raise TypeError('Description must be a string')
             self._connection.execute(
                 '''INSERT INTO tasks (
                     user_id, 
@@ -35,4 +34,27 @@ class TaskRepository:
             )
         except:
             raise AttributeError(f'Invalid user_id: {user_id}')
+        
+    def update_task(self, id, description = None, due_date = None, priority = None, status = None) -> None:
+        if description is not None:
+            check_valid_description(description)
+        if due_date is not None:
+            check_valid_due_date(due_date)
+        if priority is not None:
+            check_valid_priority(priority)
+        if status is not None:
+            check_valid_status(status)
+        try:
+            self.get_by_task_id(id)
+        except:
+            raise AttributeError(f'No task with id {id} found')    
+        else:
+            if description is not None:
+                self._connection.execute('UPDATE tasks SET description = %s WHERE id = %s', (description, id))
+            if due_date is not None:
+                self._connection.execute('UPDATE tasks SET due_date = %s WHERE id = %s', (due_date, id))
+            if priority is not None:
+                self._connection.execute('UPDATE tasks SET priority = %s WHERE id = %s', (priority, id))
+            if status is not None:
+                self._connection.execute('UPDATE tasks SET status = %s WHERE id = %s', (status, id))
 

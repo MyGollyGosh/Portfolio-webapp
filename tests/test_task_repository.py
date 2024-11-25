@@ -116,3 +116,74 @@ def test_once_again_invalid_user_id_doesnt_add(db_connection):
         Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
     ]
 
+'''
+Given a valid (task)id and new parameter
+#update_task changes the appropriate details in the DB
+'''
+def test_update_task_updates_db(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.update_task(1, description='Complete fullstack web app project', due_date = date(2025, 1, 29), priority = 1)
+    task = repo.get_by_task_id(1)
+    assert task == Task(1, 'Complete fullstack web app project', date(2025, 1, 29), task.date_added, 1, 'pending')
+    task2 = repo.get_by_task_id(2)
+    assert task2 ==  Task(1, 'Prepare presentation for project', date(2024, 11, 10), task.date_added, 2, 'in-progress')
+    
+def test_update_task_updates_description(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.update_task(1, description='Complete fullstack web app project',)
+    task = repo.get_by_task_id(1)
+    assert task == Task(1, 'Complete fullstack web app project', date(2024, 11, 15), task.date_added, 3, 'pending')
+    task2 = repo.get_by_task_id(2)
+    assert task2 ==  Task(1, 'Prepare presentation for project', date(2024, 11, 10), task.date_added, 2, 'in-progress')
+
+def test_update_task_updates_due_date(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.update_task(1, due_date = date(2025, 1, 29))
+    task = repo.get_by_task_id(1)
+    assert task == Task(1, 'Complete Flask web app project',  date(2025, 1, 29), task.date_added, 3, 'pending')
+    task2 = repo.get_by_task_id(2)
+    assert task2 ==  Task(1, 'Prepare presentation for project', date(2024, 11, 10), task.date_added, 2, 'in-progress')
+
+def test_update_task_updates_priority(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.update_task(1, priority = 1)
+    task = repo.get_by_task_id(1)
+    assert task == Task(1, 'Complete Flask web app project',  date(2024, 11, 15), task.date_added, 1, 'pending')
+    task2 = repo.get_by_task_id(2)
+    assert task2 ==  Task(1, 'Prepare presentation for project', date(2024, 11, 10), task.date_added, 2, 'in-progress')
+
+def test_update_task_updates_status(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.update_task(1, status = 'in-progress')
+    task = repo.get_by_task_id(1)
+    assert task == Task(1, 'Complete Flask web app project',  date(2024, 11, 15), task.date_added, 3, 'in-progress')
+    task2 = repo.get_by_task_id(2)
+    assert task2 ==  Task(1, 'Prepare presentation for project', date(2024, 11, 10), task.date_added, 2, 'in-progress')
+
+'''
+Given an invalid (task)id
+#update_task returns an error
+'''
+def test_update_task_with_invalid_id_gives_error(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(AttributeError) as e:
+        repo.update_task(100, description = 'New')
+    assert str(e.value) == 'No task with id 100 found'
+
+
+'''
+Given a valid (task)id and an invalid param
+#update_task returns an error
+'''
+def test_invalid_param_gives_error(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.update_task(2, description = '1')
+    assert str(e.value) == 'Invalid description'
