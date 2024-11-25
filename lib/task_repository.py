@@ -1,6 +1,5 @@
 from lib.task import *
 from lib.user_repository import UserRepository
-from datetime import date, datetime
 
 class TaskRepository:
     def __init__(self, connection):
