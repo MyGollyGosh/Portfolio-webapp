@@ -37,21 +37,21 @@ Given an (task) id that is not in the DB
 def test_invalid_task_id_gives_error(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(IndexError) as e:
+    with pytest.raises(ValueError) as e:
         repo.get_by_task_id(100)
     assert str(e.value) == 'No task with id 100 found'
 
 def test_different_invalid_task_id_gives_error(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(IndexError) as e:
+    with pytest.raises(ValueError) as e:
         repo.get_by_task_id(-100)
     assert str(e.value) == 'No task with id -100 found'
 
 def test_again_different_invalid_task_id_gives_error(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(IndexError) as e:
+    with pytest.raises(ValueError) as e:
         repo.get_by_task_id('hi')
     assert str(e.value) == 'No task with id hi found'
 
@@ -79,7 +79,7 @@ an apprioriate error is returned
 def test_invalid_user_id_doesnt_add(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(AttributeError) as e:
+    with pytest.raises(ValueError) as e:
         repo.add_task(100, 'a new task', date(2024, 11, 21), 2, 'in-progress')
     assert str(e.value) == 'Invalid user_id: 100'
     tasks = repo.all_tasks()
@@ -92,7 +92,7 @@ def test_invalid_user_id_doesnt_add(db_connection):
 def test_again_invalid_user_id_doesnt_add(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(AttributeError) as e:
+    with pytest.raises(ValueError) as e:
         repo.add_task(-100, 'a new task', date(2024, 11, 21), 2, 'in-progress')
     assert str(e.value) == 'Invalid user_id: -100'
     tasks = repo.all_tasks()
@@ -105,7 +105,7 @@ def test_again_invalid_user_id_doesnt_add(db_connection):
 def test_once_again_invalid_user_id_doesnt_add(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(AttributeError) as e:
+    with pytest.raises(ValueError) as e:
         repo.add_task('-100', 'a new task', date(2024, 11, 21), 2, 'in-progress')
     assert str(e.value) == 'Invalid user_id: -100'
     tasks = repo.all_tasks()
@@ -172,10 +172,9 @@ Given an invalid (task)id
 def test_update_task_with_invalid_id_gives_error(db_connection):
     db_connection.seed('seeds/task_seeds.sql')
     repo = TaskRepository(db_connection)
-    with pytest.raises(AttributeError) as e:
+    with pytest.raises(ValueError) as e:
         repo.update_task(100, description = 'New')
     assert str(e.value) == 'No task with id 100 found'
-
 
 '''
 Given a valid (task)id and an invalid param
@@ -187,3 +186,36 @@ def test_invalid_param_gives_error(db_connection):
     with pytest.raises(ValueError) as e:
         repo.update_task(2, description = '1')
     assert str(e.value) == 'Invalid description'
+
+'''
+given valid params 
+#delete_task removes a task from the db
+'''
+def test_delete_task_removes_from_db(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    repo.delete_task(2)
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[1].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[2].date_added, 3, 'completed')
+    ]
+
+'''
+Given a (task)id that doesn't exist
+#delete_tasks returns an error
+'''
+def test_invalid_id_gives_error_on_delete(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.delete_task(100)
+    assert str(e.value) == 'No task with id 100 found'
+    tasks = repo.all_tasks()
+    assert tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), tasks[1].date_added, 2, 'in-progress'),
+        Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
+        Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
+    ]
