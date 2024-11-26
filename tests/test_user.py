@@ -102,7 +102,7 @@ def test_equality():
 '''
 Test inequality
 '''
-def test_equality():
+def test_inequality():
     user1 = User('username1', 'email@example.com', 'Password!1')
     user2 = User('username2', 'email@example.com', 'Password!1')
     assert user1 != user2
