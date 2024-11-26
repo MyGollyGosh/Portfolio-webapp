@@ -2,7 +2,7 @@ from lib.task import *
 from lib.user_repository import UserRepository
 
 class TaskRepository:
-    def __init__(self, connection):
+    def __init__(self, connection) -> None:
         self._connection = connection
 
     def all_tasks(self) -> list:

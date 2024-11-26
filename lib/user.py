@@ -1,7 +1,7 @@
 import re
 
 class User:
-    def __init__(self, username, email, password, id=None):
+    def __init__(self, username, email, password, id=None) -> None:
         self.id = id
         self.username = username
         self.check_valid_username(username)
@@ -10,23 +10,23 @@ class User:
         self.password = password
         self.check_valid_password(password)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.__dict__ == other.__dict__
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"User({self.id}, {self.username}, {self.email})"
     
-    def check_valid_username(self, username):
-        if type(self.username) != str:
+    def check_valid_username(self, username) -> None:
+        if type(username) != str:
             raise TypeError('Username must be string')
-        if len(self.username) < 1:
+        if len(username) < 1:
             raise ValueError('Username cannot be empty')
     
-    def check_valid_email(self, email):
-        if '@' not in self.email or '.' not in self.email:
+    def check_valid_email(self, email) -> None:
+        if '@' not in email or '.' not in email:
             raise ValueError('Invalid email')
         
-    def check_valid_password(self, password):
+    def check_valid_password(self, password) -> None:
         reg = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
         pattern = re.compile(reg)
         match = re.search(pattern, password)

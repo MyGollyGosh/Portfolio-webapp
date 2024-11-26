@@ -1,7 +1,7 @@
 from datetime import datetime, date
 
 class Task:
-    def __init__(self, user_id, description, due_date, date_added, priority, status, id=None):
+    def __init__(self, user_id, description, due_date, date_added, priority, status, id=None) -> None:
         self.id = id
         self.user_id = user_id
         check_valid_user_id(user_id)
@@ -16,10 +16,10 @@ class Task:
         self.status = status
         check_valid_status(status)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.__dict__ == other.__dict__
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Task({self.user_id}, {self.description}, {self.due_date}, {self.date_added}, {self.priority}, {self.status}, {self.id})"
 
 
