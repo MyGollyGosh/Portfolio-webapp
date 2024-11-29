@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <title>Task Manager</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <nav class="nav">
+        <button class="home">home</button>
+        <button class="my-tasks">my tasks</button>
+        <button class="log-in">log in/out</button> 
+    </nav>
+
+    <body>
+        <div class="auth-container">
+            <section class="log-in">
+                <h2>Already a user? Log in!</h2>
+
+                <form action="log-in" method="post">
+                    <label for="uname">Username</label>
+                    <input type="text" placeholder="username" id="uname" name="uname" required><br><br>
+
+                    <label for="psw">Password</label>
+                    <input type="password" placeholder="password" id="psw" name="psw" required><br><br>
+
+                    <button type="submit">Log in</button>
+                </form>
+            </section>
+
+            <section class="sign-up">
+                <h2>Not a member yet? Sign up!</h2>
+
+                <form action="sign-up" method="post">
+                    <label for="uname">Username</label>
+                    <input type="text" placeholder="username" id="uname" name="uname" required><br><br>
+
+                    <label for="email">Email</label>
+                    <input type="text" placeholder="email" id="email" name="email" required><br><br>
+
+                    <label for="psw">Password</label>
+                    <input type="password" placeholder="password" id="psw" name="psw" required><br><br>
+
+                    <button type="submit">Sign up</button>
+                </form>
+            </section>
+        </div>
+    </body>
