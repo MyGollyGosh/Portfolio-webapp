@@ -11,19 +11,21 @@
 
     <body>
         <div class="auth-container">
-            <section class="log-in">
-                <h2>Already a user? Log in!</h2>
+            <section class="sign-up">
+                <h2>Not a member yet? Sign up!</h2>
 
-                <form action="log-in" method="post">
+                <form action="sign-up" method="post">
                     <label for="uname">Username</label>
                     <input type="text" placeholder="username" id="uname" name="uname" required><br><br>
 
-                    <label for="pdw">Password</label>
-                    <input type="password" placeholder="password" id="pwd" name="pwd" required><br><br>
+                    <label for="email">Email</label>
+                    <input type="text" placeholder="email" id="email" name="email" required><br><br>
 
-                    <button type="submit" id="log-in">Log in</button>
+                    <label for="psw">Password</label>
+                    <input type="password" placeholder="password" id="psw" name="psw" required><br><br>
+
+                    <button type="submit" id="sign-up">Sign up</button>
                 </form>
-                <p class="log_in_message">{{ log_in_message }}</p>
             </section>
         </div>
     </body>
