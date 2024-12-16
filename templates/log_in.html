@@ -15,15 +15,18 @@
                 <h2>Already a user? Log in!</h2>
 
                 <form action="log-in" method="post">
-                    <label for="uname">Username</label>
+                    <label for="uname">Username: </label>
                     <input type="text" placeholder="username" id="uname" name="uname" required><br><br>
 
-                    <label for="pdw">Password</label>
+                    <label for="pdw">Password: </label>
                     <input type="password" placeholder="password" id="pwd" name="pwd" required><br><br>
 
                     <button type="submit" id="log-in">Log in</button>
                 </form>
                 <p class="log_in_message">{{ log_in_message }}</p>
+                <button class="sign-up">
+                    <a href="/sign-up">Don't have an account yet? Sign up!</a>
+                </button>
             </section>
         </div>
     </body>

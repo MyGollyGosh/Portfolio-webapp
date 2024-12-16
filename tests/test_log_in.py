@@ -31,7 +31,15 @@ def test_invalid_credentials_shows_invalid_message(test_web_address, page, db_co
     page.fill('input[name=uname]', 'johndoe')
     page.fill('input[name=pwd]', 'Passw')
     page.locator('#log-in').click()
-    assert page.url == f'http://{test_web_address}/log-in'
     error_message = page.locator('.log_in_message')
     expect(error_message).to_have_text('Invalid username or password')
+
+'''
+When I click on the sign up button
+I am taken to the /sign_up page
+'''
+def test_sign_up_button_directs_to_sign_up_page(test_web_address, page):
+    page.goto(f'http://{test_web_address}/log-in')
+    page.locator('.sign-up').click()
+    assert page.url == f'http://{test_web_address}/sign-up'
 

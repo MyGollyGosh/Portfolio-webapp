@@ -6,7 +6,6 @@ def get_log_in_routes(app):
 
     @app.route('/log-in', methods=['GET'])
     def get_log_in_page():
-        log_in_message = 'hi'
         return render_template('log_in.html')
     
     @app.route('/log-in', methods=['POST'])
@@ -15,7 +14,6 @@ def get_log_in_routes(app):
         repo = UserRepository(connection)
         username = request.form['uname']
         password = request.form['pwd']
-        log_in_message = 'HI'
         if repo.validate_user(username, password):
             return redirect('/home')
         else:
