@@ -1,6 +1,5 @@
 
 
-
 '''
 when I go to / 
 I am directed to the home page
