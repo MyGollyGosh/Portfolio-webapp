@@ -16,7 +16,7 @@
 
                 <form action="sign-up" method="post">
                     <label for="uname">Username</label>
-                    <input type="text" placeholder="username" id="uname" name="uname" required><br><br>
+                    <input type="text" placeholder="username" id="uname" name="uname" required pattern=".*\S.*" title="Username cannot be empty"><br><br>
 
                     <label for="email">Email</label>
                     <input type="text" placeholder="email" id="email" name="email" required><br><br>
@@ -24,7 +24,7 @@
                     <label for="psw">Password</label>
                     <input type="password" placeholder="password" id="psw" name="psw" required><br><br>
 
-                    <button type="submit" id="sign-up">Sign up</button>
+                    <button type="submit" id="sign-up-button">Sign up</button>
                 </form>
             </section>
         </div>

@@ -43,6 +43,16 @@ def test_invalid_username_returns_error(db_connection):
         User('johndoe', 'johndoe@example.com', 'Password!1', 1),
         User('janedoe', 'janedoe@example.com', 'Password!2', 2)
         ]
+def test_empty_username_returns_error(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = UserRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.add(' ', 'jimdoe@example.com', 'Password!3')
+    assert str(e.value) == 'Username cannot be empty'
+    assert repo.all() == [
+        User('johndoe', 'johndoe@example.com', 'Password!1', 1),
+        User('janedoe', 'janedoe@example.com', 'Password!2', 2)
+        ]
 
 
 '''
@@ -178,3 +188,7 @@ def test_invalid_id_gives_error_on_update(db_connection):
     with pytest.raises(ValueError) as e:
         repo.update_user('Password#2', 20)
     assert str(e.value) == 'Password could not be changed: No user found'
+
+'''
+
+'''
