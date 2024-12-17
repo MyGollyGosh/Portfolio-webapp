@@ -25,7 +25,7 @@ class UserRepository:
             return True
         
     def add(self, username, email, password) -> str:
-        user = User(username, email, password)
+        user = User(username.strip(), email.strip(), password.strip())
         self._connection.execute('INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)', [username, email, password])
         return f"{user} was successfully created"
     
