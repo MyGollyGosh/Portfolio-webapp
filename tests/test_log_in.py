@@ -43,3 +43,11 @@ def test_sign_up_button_directs_to_sign_up_page(test_web_address, page):
     page.locator('.sign-up').click()
     assert page.url == f'http://{test_web_address}/sign-up'
 
+'''
+When I click the home button on /log-in
+I am directed to the home page
+'''
+def test_home_button_on_log_in_page_directs_to_home_page(test_web_address, page):
+    page.goto(f'http://{test_web_address}/log-in')
+    page.locator('.home').click()
+    assert page.url == f'http://{test_web_address}/home'
