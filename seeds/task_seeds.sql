@@ -30,8 +30,8 @@ CREATE TABLE tasks (
 
 -- Seed data for users
 INSERT INTO users (username, email, password_hash) VALUES
-    ('johndoe', 'johndoe@example.com', 'Password!1'),
-    ('janedoe', 'janedoe@example.com', 'Password!2');
+    ('johndoe', 'johndoe@example.com', 'scrypt:32768:8:1$jg9KZMuzlLWb5gNM$4609a70796335c09ff85dbae893841c7ec6def8b6608d03a66b8633f75f75cf0d306cb6e17b6de33607178140387c43527dc3b67359793df3041a579e3a6afa5'),
+    ('janedoe', 'janedoe@example.com', 'scrypt:32768:8:1$8sdXnvRxdyWXjLQh$f97e0961a3460f3b48973a8486401065823c08372985e7c775d184b5c26546247b3f458352838adbab6b0445b13d9ee246468ee124a77b36697efe141519f6f4');
 
 -- Seed data for tasks
 INSERT INTO tasks (user_id, description, due_date, date_added, priority, status) VALUES
