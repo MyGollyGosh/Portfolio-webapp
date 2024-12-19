@@ -1,2 +1,3 @@
 __pycache__/
 .DS_Store
+seeds/create_hash_passwords.py
