@@ -1,4 +1,5 @@
 from lib.user import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserRepository:
     def __init__(self, connection) -> None:
@@ -15,18 +16,48 @@ class UserRepository:
             raise IndexError(f'No user with id {id} found')
         else:
             return User(user['username'], user['email'], user['password_hash'], user['id'])
-        
-    def validate_user(self, username, password) -> bool:
+    
+    def get_by_username(self, username) -> User | None:
         try:
-            self._connection.execute('SELECT * FROM users WHERE username = %s AND password_hash = %s', (username, password))[0]
+            user_data = self._connection.execute(
+                'SELECT * FROM users WHERE username = %s', 
+                (username,)
+            )[0]
+            return User(
+                user_data['username'],
+                user_data['email'],
+                user_data['password_hash'],
+                user_data['id']
+            )
         except:
-            return False
-        else:
-            return True
+            return None
+        
+    def validate_user(self, username, password) -> tuple[bool, User | None]:
+        print(username, password)
+        try:
+            user_data = self._connection.execute(
+                'SELECT * FROM users WHERE username = %s',
+                (username,)
+            )[0]
+            user = User(user_data['username'],
+                        user_data['email'],
+                        user_data['password_hash'],
+                        user_data['id']
+            )
+            print(user)
+            if check_password_hash(user.password, password):
+                return True, user
+            return False, None
+        except:
+            return False, None
         
     def add(self, username, email, password) -> str:
         user = User(username.strip(), email.strip(), password.strip())
-        self._connection.execute('INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)', [username, email, password])
+        hashed_password = generate_password_hash(password)
+        self._connection.execute(
+            'INSERT INTO users (username, email, password_hash) VALUES (%s, %s, %s)',
+            [username, email, hashed_password]
+        )
         return f"{user} was successfully created"
     
     def delete_by_id(self, id) -> str:
@@ -41,7 +72,8 @@ class UserRepository:
         try:
             user = self.get_by_id(id)
             user.check_valid_password(password)
-            self._connection.execute('UPDATE users SET password_hash = %s WHERE id = %s', [password, id])
+            hashed_password = generate_password_hash(password)
+            self._connection.execute('UPDATE users SET password_hash = %s WHERE id = %s', [hashed_password, id])
             return f'User with id {id} successfully changed password'
         except IndexError:
             raise ValueError('Password could not be changed: No user found')

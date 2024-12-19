@@ -113,3 +113,19 @@ Test formatting
 def test_formatting():
     user = User('username', 'email@example.com', 'Password!1')
     assert str(user) == f'User(None, username, email@example.com)'
+
+'''
+for using flask-login
+#is_active returns True
+'''
+def test_is_active_returns_true():
+    user = User('username', 'email@example.com', 'Password!1')
+    assert user.is_active() == True
+
+'''
+for flask-login
+#get_id returns the user id as a string
+'''
+def get_id_returns_users_id_as_str():
+    user = User('username', 'email@example.com', 'Password!1')
+    assert user.get_id() == '3'
