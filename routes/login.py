@@ -3,12 +3,13 @@ from flask_login import login_user
 from lib.database_connection import get_flask_database_connection
 from lib.user_repository import UserRepository
 
+
 def get_log_in_routes(app):
 
     @app.route('/log-in', methods=['GET'])
     def get_log_in_page():
         return render_template('log_in.html')
-    
+
     @app.route('/log-in', methods=['POST'])
     def log_in_user():
         connection = get_flask_database_connection(app)
