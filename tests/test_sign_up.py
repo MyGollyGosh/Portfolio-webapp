@@ -1,4 +1,3 @@
-from playwright.sync_api import expect
 from lib.user_repository import UserRepository
 
 
@@ -47,3 +46,24 @@ def test_home_button_on_sign_up_page_directs_correctly(test_web_address, page):
     page.locator('.home').click()
     assert page.url == f'http://{test_web_address}/home'
 
+'''
+when I am logged in and try to access /sign-up
+I am redirected to /home
+'''
+def test_logged_in_user_accessing_sign_up_is_directed_to_home(test_web_address, page, db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    assert page.url == f'http://{test_web_address}/home'
+    page.goto(f'http://{test_web_address}/sign-up')
+    assert page.url == f'http://{test_web_address}/home'
+
+'''
+when I am not logged in
+I am able to access /sign-up
+'''
+def test_guest_user_can_access_sign_up(test_web_address, page):
+    page.goto(f'http://{test_web_address}/sign-in')
+    assert page.url == f'http://{test_web_address}/sign-in'
