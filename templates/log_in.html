@@ -11,6 +11,13 @@
         </button>
         <button class="my-tasks">my tasks</button>
     </nav>
+    <div class="greeting">
+        {% if current_user.is_authenticated%}
+            <p>Welcome, {{ current_user.username }}!</p>
+        {% else %}
+            <p>Welcome, Guest!</p>
+        {% endif %}
+    </div>
 
     <body>
         <div class="auth-container">
