@@ -28,4 +28,24 @@ def test_logout_button_exists_for_logged_in_user(test_web_address, page, db_conn
     page.goto(f'http://{test_web_address}/tasks')
     auth_button = page.locator('.logout')
     expect(auth_button).to_have_text('logout')
-    # Test currently failing as no tasks route set up. Should pass once html is rendered
+
+'''
+When I am not logged in, if I attempt to access /tasks
+I am redirected to /login
+'''
+def test_guest_user_accessing_tasks_is_directed_to_login_page(test_web_address, page):
+    page.goto(f'http://{test_web_address}/tasks')
+    assert page.url == f'http://{test_web_address}/log-in'
+
+'''
+When I am logged in, if I attempt to access /tasks
+I am directed to /tasks
+'''
+def test_logged_in_user_is_able_to_view_tasks(test_web_address, page, db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    page.goto(f'http://{test_web_address}/tasks')
+    assert page.url == f'http://{test_web_address}/tasks'
