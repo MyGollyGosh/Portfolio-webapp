@@ -61,3 +61,18 @@ def test_guest_sees_login_button(test_web_address, page):
     auth_button = page.locator('.log-in')
     expect(auth_button).to_have_text('login')
 
+'''
+when I am logged in
+I cannot access /login
+I am redifected to home
+'''
+def test_logged_in_user_cannot_acces_login_page_redirected_to_home(test_web_address, page, db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    assert page.url == f'http://{test_web_address}/home'
+    page.goto(f'http://{test_web_address}/log-in')
+    assert page.url == f'http://{test_web_address}/home'
+    assert page.locator('.log-in-form').count() == 0
