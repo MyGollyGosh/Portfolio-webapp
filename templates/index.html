@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <nav class="nav">
-        <button class="home">home</button>
-        <button class="my-tasks">my tasks</button>
-        <button class="log-in">
-            <a href="/log-in">login</a>
-        </button>
-        <button class="logout">
-            <a href="/logout">logout</a>
-        </button>
+        <div class="auth-status">
+            <button class="home">home</button>
+            <button class="my-tasks">my tasks</button>
+                {% if current_user.is_authenticated %}
+                    <button class="logout">
+                        <a href="/logout">logout</a>
+                    </button>
+                {% else %}
+                    <button class="log-in">
+                        <a href="/log-in">login</a>
+                    </button>
+                {% endif %}
+        </div>
     </nav>
     <div class="greeting">
         {% if current_user.is_authenticated%}
