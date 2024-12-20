@@ -9,6 +9,7 @@ from routes.home import get_home_routes
 from routes.login import get_log_in_routes
 from routes.sign_up import get_sign_in_routes
 from routes.logout import get_logout_routes
+from routes.tasks import get_tasks_routes
 
 app = Flask(__name__)
 
@@ -37,6 +38,7 @@ get_index_routes(app)
 get_log_in_routes(app)
 get_sign_in_routes(app)
 get_logout_routes(app)
+get_tasks_routes(app)
 
 if __name__ == '__main__':
     app.run(debug=True, port=int(os.environ.get('PORT', 5001)))
