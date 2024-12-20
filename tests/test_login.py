@@ -51,3 +51,13 @@ def test_home_button_on_log_in_page_directs_to_home_page(test_web_address, page)
     page.goto(f'http://{test_web_address}/log-in')
     page.locator('.home').click()
     assert page.url == f'http://{test_web_address}/home'
+
+'''
+when I am on the login page
+I see a login button    
+'''
+def test_guest_sees_login_button(test_web_address, page):
+    page.goto(f'http://{test_web_address}/home')
+    auth_button = page.locator('.log-in')
+    expect(auth_button).to_have_text('login')
+

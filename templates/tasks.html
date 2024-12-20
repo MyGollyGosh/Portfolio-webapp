@@ -6,16 +6,13 @@
     <nav class="nav">
         <button class="home">home</button>
         <button class="my-tasks">my tasks</button>
-        <button class="log-in">log in</button> 
+        <button class="logout">
+            <a href="/logout">logout</a>
+        </button>
     </nav>
     <div class="greeting">
-        {% if current_user.is_authenticated%}
-            <p>Welcome, {{ current_user.username }}!</p>
-        {% else %}
-            <p>Welcome, Guest!</p>
-        {% endif %}
+        <p>Welcome, {{ current_user.username }}!</p>
     </div>
-
     <body>
         <p>Task no.</p>
         <p>Description</p>

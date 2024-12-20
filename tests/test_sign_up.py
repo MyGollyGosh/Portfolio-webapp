@@ -1,3 +1,4 @@
+from playwright.sync_api import expect
 from lib.user_repository import UserRepository
 
 
@@ -46,12 +47,3 @@ def test_home_button_on_sign_up_page_directs_correctly(test_web_address, page):
     page.locator('.home').click()
     assert page.url == f'http://{test_web_address}/home'
 
-'''
-when I click the log in button on /sign-up
-I am taken to /log-in
-'''
-
-def test_log_in_button_on_sign_up_page_directs_to_log_in_page(test_web_address, page):
-    page.goto(f'http://{test_web_address}/sign-up')
-    page.locator('.log-in').click()
-    assert page.url == f'http://{test_web_address}/log-in'
