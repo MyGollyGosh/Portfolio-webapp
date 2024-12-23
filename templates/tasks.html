@@ -14,6 +14,18 @@
         <p>Welcome, {{ current_user.username }}!</p>
     </div>
     <body>
+        <div class="task-list">
+            {% for task in tasks %}
+
+            <div class="task">
+                <p class="description">{{ task['description'] }}</p>
+                <p class="due-date">{{ task['due_date'] }}</p>
+                <p class="priority">{{ task['priority'] }}</p>
+                <p class="status">{{ task['status'] }}</p>
+                <p class="date_added">{{ task['date_added'] }}</p>
+            </div>
+            {% endfor %}
+        </div>
         <p>Task no.</p>
         <p>Description</p>
         <p>Date added</p>

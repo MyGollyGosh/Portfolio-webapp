@@ -219,3 +219,17 @@ def test_invalid_id_gives_error_on_delete(db_connection):
         Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
         Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
     ]
+
+'''
+when I call #get_by_user_id
+I get a list of all tasks with that users id
+'''
+
+def test_user_by_id_gives_list_of_tasks_with_only_that_user(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    user_1_tasks = repo.get_by_user_id(1)
+    assert user_1_tasks == [
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), user_1_tasks[0].date_added, 3, 'pending'),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), user_1_tasks[1].date_added, 2, 'in-progress')
+    ]
