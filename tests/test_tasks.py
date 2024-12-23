@@ -49,3 +49,24 @@ def test_logged_in_user_is_able_to_view_tasks(test_web_address, page, db_connect
     page.locator('#log-in').click()
     page.goto(f'http://{test_web_address}/tasks')
     assert page.url == f'http://{test_web_address}/tasks'
+
+'''
+when I am logged in I can see my tasks
+'''
+def test_tasks_are_visible_for_logged_in_user(test_web_address, page, db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    page.goto(f'http://{test_web_address}/tasks')
+    assert page.url == f'http://{test_web_address}/tasks'
+    description = page.locator('.description')
+    due_date = page.locator('.due-date')
+    priority = page.locator('.priority')
+    status = page.locator('.status')
+    expect(description.nth(1)).to_have_text('Prepare presentation for project')
+    expect(due_date.nth(1)).to_have_text('2024-11-10')
+    expect(priority.nth(1)).to_have_text('2')
+    expect(status.nth(1)).to_have_text('in-progress')
+    

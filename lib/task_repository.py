@@ -17,6 +17,13 @@ class TaskRepository:
         else:
             return Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status'])
         
+    def get_by_user_id(self, user_id) -> list:
+        tasks = self._connection.execute('SELECT * FROM tasks WHERE user_id = %s', (user_id,))
+        if len(tasks) == 0:
+            return 'No tasks'
+        return [Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status']) for task in tasks]
+        
+        
     def add_task(self, user_id, description, due_date, priority, status) -> None:
         try:
             user = UserRepository(self._connection)
