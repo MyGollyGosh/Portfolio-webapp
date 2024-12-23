@@ -20,6 +20,3 @@ def get_sign_in_routes(app):
                 return redirect('/home')
 
         return render_template('sign_up.html')
-    
-
-
