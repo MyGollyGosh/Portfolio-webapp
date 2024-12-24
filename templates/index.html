@@ -9,11 +9,11 @@
             <button class="my-tasks">my tasks</button>
                 {% if current_user.is_authenticated %}
                     <button class="logout">
-                        <a href="/logout">logout</a>
+                        <a href="{{ url_for('logout') }}">logout</a>
                     </button>
                 {% else %}
                     <button class="log-in">
-                        <a href="/log-in">login</a>
+                        <a href="{{ url_for('login') }}">login</a>
                     </button>
                 {% endif %}
         </div>
