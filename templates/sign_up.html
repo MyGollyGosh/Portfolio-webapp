@@ -6,11 +6,11 @@
     <nav class="nav">
         <div class="auth-status">
             <button class="home">
-                <a href="/home">home</a>
+                <a href="{{ url_for('get_home_page') }}">home</a>
             </button>
-            <button class="my-tasks">my tasks</button>
+            <button class="{{ url_for('get_tasks') }}">my tasks</button>
             <button class="log-in">
-                <a href="/log-in">login</a>
+                <a href="{{ url_for('login') }}">login</a>
             </button>
         </div>
     </nav>
@@ -39,7 +39,7 @@
                     <button type="submit" id="sign-up-button">Sign up</button>
                 </form>
                 <button class="log-in">
-                    <a href="/log-in">
+                    <a href="{{ url_for('login') }}">
                         Already have an account? Login!
                     </a>
                 </button>

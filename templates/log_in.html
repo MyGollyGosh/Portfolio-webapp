@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <nav class="nav">
         <button class="home">
-            <a href="/home">home</a>
+            <a href="{{ url_for('get_home_page') }}">home</a>
         </button>
         <button class="my-tasks">my tasks</button>
         <button class="log-in">
-            <a href="/log-in">login</a>
+            <a href="{{ url_for('login') }}">login</a>
         </button>
     </nav>
     <div class="greeting">
@@ -35,7 +35,7 @@
                 </form>
                 <p class="log_in_message">{{ log_in_message }}</p>
                 <button class="sign-up">
-                    <a href="/sign-up">Don't have an account yet? Sign up!</a>
+                    <a href="{{ url_for('get_sign_up_page') }}">Don't have an account yet? Sign up!</a>
                 </button>
             </section>
         </div>

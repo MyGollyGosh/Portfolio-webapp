@@ -1,4 +1,4 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, url_for
 from flask_login import current_user
 from lib.task_repository import TaskRepository
 from lib.database_connection import get_flask_database_connection
@@ -9,7 +9,7 @@ def get_tasks_routes(app):
     @app.route('/tasks', methods=['GET'])
     def get_tasks():
         if not current_user.is_authenticated:
-            return redirect('/log-in')
+            return redirect(url_for('login'))
         
         task_repo = TaskRepository(get_flask_database_connection(app))
         user_tasks = task_repo.get_by_user_id(current_user.id)
