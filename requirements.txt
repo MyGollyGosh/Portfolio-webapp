@@ -3,3 +3,4 @@ psycopg
 pytest
 flask-login
 pytest-xprocess
+playwright
