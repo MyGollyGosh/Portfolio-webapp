@@ -55,3 +55,25 @@ def test_logout_button_exists_for_logged_in_user(test_web_address, page, db_conn
     auth_button = page.locator('.logout')
     expect(auth_button).to_have_text('logout')
 
+'''
+when I am on /home and not logged in 
+my-tasks takes me to the log in page
+'''
+def test_unauthed_user_taken_to_login_on_mytasks_button_press(test_web_address, page):
+    page.goto(f'http://{test_web_address}/home')
+    page.locator('.my-tasks').click()
+    assert page.url == f'http://{test_web_address}/log-in'
+
+'''
+when I am on /home and logged in
+my-tasks takes me to the my-tasks pages
+'''
+def test_authed_user_is_taken_to_mytasks_on_button_press(db_connection, test_web_address, page):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    assert page.url == f'http://{test_web_address}/home'
+    page.locator('.my-tasks').click()
+    assert page.url == f'http://{test_web_address}/tasks'

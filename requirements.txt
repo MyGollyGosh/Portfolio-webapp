@@ -2,3 +2,4 @@ Flask
 psycopg
 pytest
 flask-login
+pytest-xprocess
