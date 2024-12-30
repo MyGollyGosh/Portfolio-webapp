@@ -1,4 +1,4 @@
-name: Run Test Suite
+name: Required Test Suite
 
 on:
   pull_request:
@@ -12,11 +12,10 @@ jobs:
     
     services:
       postgres:
-        image: postgres:14  
+        image: postgres:14
         env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust  # Allows passwordless connections
+          POSTGRES_USER: runner  # Match the default user running the tests
         ports:
           - 5432:5432
         options: >-
@@ -40,7 +39,7 @@ jobs:
         pip install -r requirements.txt
         pip install pytest-xprocess
         pip install playwright pytest-playwright
-        playwright install
+        playwright install --with-deps chromium
         
     - name: Install PostgreSQL client
       run: |
@@ -48,15 +47,10 @@ jobs:
         sudo apt-get install -y postgresql-client
         
     - name: Set Up DB
-      env:
-        PGPASSWORD: postgres
       run: |
-        createdb -h localhost -U postgres task_manager_test
+        createdb task_manager_test
         
     - name: Run tests
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
-        PGPASSWORD: postgres
       run: |
         python -m pytest
         
