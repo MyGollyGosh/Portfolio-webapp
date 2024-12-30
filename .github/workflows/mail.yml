@@ -12,7 +12,7 @@ jobs:
     
     services:
       postgres:
-        image: postgres:14
+        image: postgres:14  
         env:
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
@@ -39,6 +39,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest-xprocess
+        pip install playwright pytest-playwright
+        playwright install
         
     - name: Install PostgreSQL client
       run: |
@@ -46,12 +48,15 @@ jobs:
         sudo apt-get install -y postgresql-client
         
     - name: Set Up DB
+      env:
+        PGPASSWORD: postgres
       run: |
-        PGPASSWORD=postgres createdb -h localhost -U postgres task_manager_test
+        createdb -h localhost -U postgres task_manager_test
         
     - name: Run tests
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
+        PGPASSWORD: postgres
       run: |
         python -m pytest
         
