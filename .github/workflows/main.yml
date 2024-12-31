@@ -56,8 +56,12 @@ jobs:
           echo "Waiting for PostgreSQL..."
           sleep 5
         done
-      
-        
+
+    - name: Debug PostgreSQL Host Resolution
+      run: |
+        nslookup postgres || echo "Failed to resolve hostname"
+        ping -c 3 postgres || echo "Failed to ping PostgreSQL host"
+
     - name: Set Up DB
       env:
         PGPASSWORD: postgres
