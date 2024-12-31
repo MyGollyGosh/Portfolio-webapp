@@ -51,7 +51,7 @@ jobs:
       run: |
         until pg_isready -h postgres -U postgres; do
           echo "Waiting for PostgreSQL...";
-          sleep 1;
+          sleep 5;
         done
         
     - name: Set Up DB
@@ -62,7 +62,7 @@ jobs:
         
     - name: Run tests
       env:
-        DATABASE_URL: postgresql://postgres:postgres@postgres:5432/task_manager_test
+        DATABASE_URL: postgresql://postgres:postgres@localhost/task_manager_test
         PGPASSWORD: postgres
       run: |
         python -m pytest
