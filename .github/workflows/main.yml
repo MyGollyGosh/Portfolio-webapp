@@ -47,16 +47,21 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y postgresql-client
 
-        - name: Wait for PostgreSQL
-        env:
-          PGPASSWORD: postgres
-        run: |
-          for i in {1..4}; do
-            pg_isready -h localhost -U postgres && break
-            echo "Waiting for PostgreSQL..."
-            sleep 5
-          done
-      
+    - name: Wait for PostgreSQL
+      env:
+        PGPASSWORD: postgres
+      run: |
+        for i in {1..4}; do
+          pg_isready -h localhost -U postgres && break
+          echo "Waiting for PostgreSQL..."
+          sleep 5
+        done
+
+    - name: Debug PostgreSQL Connection
+      run: |
+        nc -zv localhost 5432 || echo "Cannot connect to PostgreSQL port"
+        ps aux | grep postgres || echo "No PostgreSQL processes found"
+
     - name: Set Up DB
       env:
         PGPASSWORD: postgres
@@ -68,8 +73,8 @@ jobs:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
         PGPASSWORD: postgres
       run: |
-        python -m pytest  
-              
+        python -m pytest
+        
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
