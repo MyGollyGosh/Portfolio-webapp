@@ -50,6 +50,7 @@ jobs:
     - name: Wait for PostgreSQL
       env:
         PGPASSWORD: postgres
+        PGUSER: postgres
       run: |
         for i in {1..4}; do
           pg_isready -h localhost -U postgres && break
@@ -65,13 +66,15 @@ jobs:
     - name: Set Up DB
       env:
         PGPASSWORD: postgres
+        PGUSER: postgres
       run: |
         createdb -h localhost -U postgres task_manager_test
         
     - name: Run tests
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
+        DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/task_manager_test"
         PGPASSWORD: postgres
+        PGUSER: postgres
       run: |
         python -m pytest
         
