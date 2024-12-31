@@ -47,34 +47,29 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y postgresql-client
 
-    - name: Wait for PostgreSQL
-      env:
-        PGPASSWORD: postgres
-      run: |
-        for i in {1..10}; do
-          pg_isready -h postgres -U postgres && break
-          echo "Waiting for PostgreSQL..."
-          sleep 5
-        done
-
-    - name: Debug PostgreSQL Host Resolution
-      run: |
-        nslookup postgres || echo "Failed to resolve hostname"
-        ping -c 3 postgres || echo "Failed to ping PostgreSQL host"
-
+        - name: Wait for PostgreSQL
+        env:
+          PGPASSWORD: postgres
+        run: |
+          for i in {1..4}; do
+            pg_isready -h localhost -U postgres && break
+            echo "Waiting for PostgreSQL..."
+            sleep 5
+          done
+      
     - name: Set Up DB
       env:
         PGPASSWORD: postgres
       run: |
-        createdb -h postgres -U postgres task_manager_test
+        createdb -h localhost -U postgres task_manager_test
         
     - name: Run tests
       env:
-        DATABASE_URL: postgresql://postgres:postgres@postgres:5432/task_manager_test
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
         PGPASSWORD: postgres
       run: |
-        python -m pytest
-        
+        python -m pytest  
+              
     - name: Upload test results
       if: always()
       uses: actions/upload-artifact@v4
