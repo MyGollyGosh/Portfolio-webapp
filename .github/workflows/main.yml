@@ -51,11 +51,12 @@ jobs:
       env:
         PGPASSWORD: postgres
       run: |
-        createdb -h localhost -U postgres task_manager_test
+        createdb -h postgres -U postgres task_manager_test
         
     - name: Run tests
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/task_manager_test
+        DATABASE_URL: postgresql://postgres:postgres@postgres:5432/task_manager_test
+
         PGPASSWORD: postgres
       run: |
         python -m pytest
