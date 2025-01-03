@@ -69,4 +69,20 @@ def test_tasks_are_visible_for_logged_in_user(test_web_address, page, db_connect
     expect(due_date.nth(1)).to_have_text('2024-11-10')
     expect(priority.nth(1)).to_have_text('2')
     expect(status.nth(1)).to_have_text('in-progress')
+
+'''
+when I hit the .manage-tasks button
+I am taken to the manage tasks page
+'''
+def test_manage_tasks_button_directs_to_manage_page(db_connection, test_web_address, page):
+    db_connection.seed('seeds/task_seeds.sql')
+    page.goto(f'http://{test_web_address}/log-in')
+    page.fill('input[name=uname]', 'johndoe')
+    page.fill('input[name=pwd]', 'Password!1')
+    page.locator('#log-in').click()
+    page.goto(f'http://{test_web_address}/tasks')
+    assert page.url == f'http://{test_web_address}/tasks'
+    page.locator('.manage-tasks').click()
+    assert page.url == f'http://{test_web_address}/manage-tasks'
+
     

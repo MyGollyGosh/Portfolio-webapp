@@ -21,7 +21,7 @@ class TaskRepository:
         tasks = self._connection.execute('SELECT * FROM tasks WHERE user_id = %s', (user_id,))
         if len(tasks) == 0:
             return 'No tasks'
-        return [Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status']) for task in tasks]
+        return [Task(task['user_id'], task['description'], task['due_date'], task['date_added'], task['priority'], task['status'], task['id']) for task in tasks]
         
         
     def add_task(self, user_id, description, due_date, priority, status) -> None:

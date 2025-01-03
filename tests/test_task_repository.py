@@ -230,6 +230,6 @@ def test_user_by_id_gives_list_of_tasks_with_only_that_user(db_connection):
     repo = TaskRepository(db_connection)
     user_1_tasks = repo.get_by_user_id(1)
     assert user_1_tasks == [
-        Task(1, 'Complete Flask web app project', date(2024, 11, 15), user_1_tasks[0].date_added, 3, 'pending'),
-        Task(1, 'Prepare presentation for project', date(2024, 11, 10), user_1_tasks[1].date_added, 2, 'in-progress')
+        Task(1, 'Complete Flask web app project', date(2024, 11, 15), user_1_tasks[0].date_added, 3, 'pending', 1),
+        Task(1, 'Prepare presentation for project', date(2024, 11, 10), user_1_tasks[1].date_added, 2, 'in-progress', 2)
     ]

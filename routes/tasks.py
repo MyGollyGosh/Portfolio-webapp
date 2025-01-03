@@ -24,6 +24,5 @@ def get_tasks_routes(app):
             }
             tasks.append(task_details)
 
-
         return render_template('tasks.html', tasks=tasks)
         

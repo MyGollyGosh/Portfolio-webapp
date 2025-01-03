@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <nav class="nav">
         <button class="home">home</button>
-        <button class="my-tasks">my tasks</button>
+        <button class="my-tasks">
+            <a href="{{ url_for('get_tasks')}}"> tasks </a>
+        </button>        <button class="manage-tasks">
+            <a href="{{ url_for('get_manage_tasks_page') }}">manage tasks</a>
+        </button>
         <button class="logout">
             <a href="{{ url_for('logout') }}">logout</a>
         </button>
