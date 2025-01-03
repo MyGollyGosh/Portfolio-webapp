@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <title>Task Manager</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <nav class="nav">
+        <button class="home">home</button>
+        <button class="my-tasks">
+            <a href="{{ url_for('get_tasks')}}"> tasks </a>
+        </button>        <button class="manage-tasks">
+            <a href="{{ url_for('get_manage_tasks_page') }}">manage tasks</a>
+        </button>
+        <button class="logout">
+            <a href="{{ url_for('logout') }}">logout</a>
+        </button>
+    </nav>
+    <div class="greeting">
+        <p>Welcome, {{ current_user.username }}!</p>
+    </div>
+    <body>
+        <div class="task-list">
+            <form method="POST" action="{{ url_for('get_manage_tasks_page') }}">
+                <select name="task" id="task" onchange="this.form.submit()">
+                    <option value="" class="task-name">please select an option</option>
+                    {% for task in tasks %}
+                        <option value="{{ task['id'] }}" class="task-name">{{ task['description'] }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        
+            {% if selected_task %}
+                <div class="selected-task">
+                    <p class="description">{{ selected_task['description'] }}</p>
+                    <p class="due-date">{{ selected_task['due_date'] }}</p>
+                    <p class="priority">{{ selected_task['priority'] }}</p>
+                    <p class="status">{{ selected_task['status'] }}</p>
+                    <p class="date_added">{{ selected_task['date_added'] }}</p>        
+                </div>
+            {% endif %}
+        </div>
+        
+    </body>
