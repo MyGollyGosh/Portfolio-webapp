@@ -28,18 +28,18 @@ class TaskRepository:
         try:
             user = UserRepository(self._connection)
             user.get_by_id(user_id)
-            self._connection.execute(
-                '''INSERT INTO tasks (
-                    user_id, 
-                    description, 
-                    due_date, 
-                    priority, 
-                    status
-                ) VALUES (%s, %s, %s, %s, %s)''', 
-                [user_id, description, due_date, priority, status]
-            )
         except:
             raise ValueError(f'Invalid user_id: {user_id}')
+        self._connection.execute(
+            '''INSERT INTO tasks (
+                user_id, 
+                description, 
+                due_date, 
+                priority, 
+                status
+            ) VALUES (%s, %s, %s, %s, %s)''', 
+            [user_id, description, due_date, priority, status]
+        )
         
     def update_task(self, id, description = None, due_date = None, priority = None, status = None) -> None:
         if description is not None:
