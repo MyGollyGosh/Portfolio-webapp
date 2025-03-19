@@ -11,6 +11,7 @@ from routes.sign_up import get_sign_in_routes
 from routes.logout import get_logout_routes
 from routes.tasks import get_tasks_routes
 from routes.manage_tasks import get_manage_tasks_routes
+from routes.add_task import get_add_task_routes
 
 app = Flask(__name__)
 
@@ -41,6 +42,7 @@ get_sign_in_routes(app)
 get_logout_routes(app)
 get_tasks_routes(app)
 get_manage_tasks_routes(app)
+get_add_task_routes(app)
 
 
 if __name__ == '__main__':

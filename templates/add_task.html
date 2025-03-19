@@ -14,5 +14,21 @@
             <a href="{{ url_for('logout') }}">logout</a>
         </button>
     </nav>
-
+    <div class="greeting">
+        <p>Welcome, {{ current_user.username }}!</p>
+    </div>
+    <body>
+        <div>
+            <form class="add-task-details">
+                <label for="description">Description</label>
+                <input type="text" placeholder="description" id="description" required>
+                
+                <label for="due_date">Due date</label>
+                <input type="date" id="due-date" required>
+                
+                <label for="priority">priority</label>
+                <input type="number" placeholder="priority" id="priority" min="1" max="5" required>
+            </form>
+        </div>
+    </body>
 </html>
