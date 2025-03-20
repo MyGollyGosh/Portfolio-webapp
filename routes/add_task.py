@@ -7,7 +7,6 @@ def get_add_task_routes(app):
 
     @app.route('/add-task', methods=['GET', 'POST'])
     def get_add_task():
-        print(request.method)
         if request.method == 'GET':
             return render_template('add_task.html')
         
@@ -18,6 +17,4 @@ def get_add_task_routes(app):
             due_date = request.form['due-date']
             priority = request.form['priority']
             repo.add_task(current_user.id, description, due_date, priority, 'pending')
-            print('21')
-            print(repo.all_tasks())
             
