@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_login import LoginManager
-from lib.user import User
+#from lib.user import User
 from lib.user_repository import UserRepository
 from lib.database_connection import get_flask_database_connection
 from routes.index import get_index_routes

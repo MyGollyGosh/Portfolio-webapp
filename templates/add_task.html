@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <nav class="nav">
-        <button class="home">home</button>
+        <button class="home">
+            home
+        </button>
         <button class="my-tasks">
             <a href="{{ url_for('get_tasks')}}"> tasks </a>
-        </button>        <button class="manage-tasks">
+        </button>
+        <button class="manage-tasks">
             <a href="{{ url_for('get_manage_tasks_page') }}">manage tasks</a>
         </button>
         <button class="logout">
@@ -19,15 +22,19 @@
     </div>
     <body>
         <div>
-            <form class="add-task-details">
+            <form action="add-task" method="post" class="add-task-details">
                 <label for="description">Description</label>
-                <input type="text" placeholder="description" id="description" required>
+                <input type="text" placeholder="description" id="description" name="description" required>
                 
                 <label for="due_date">Due date</label>
-                <input type="date" id="due-date" required>
+                <input type="date" id="due-date" name="due-date" required>
                 
                 <label for="priority">priority</label>
-                <input type="number" placeholder="priority" id="priority" min="1" max="5" required>
+                <input type="number" placeholder="priority" id="priority" name="priority" min="1" max="5" required>
+
+                <button type="submit" id="submit-task">
+                    Submit
+                </button>
             </form>
         </div>
     </body>
