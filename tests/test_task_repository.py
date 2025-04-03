@@ -115,6 +115,13 @@ def test_once_again_invalid_user_id_doesnt_add(db_connection):
         Task(2, 'Review portfolio projects', date(2024, 11, 20), tasks[2].date_added, 1, 'pending'),
         Task(2, 'Update resume', date(2024, 11, 12), tasks[3].date_added, 3, 'completed')
     ]
+def test_invalid_description_doesnt_add_to_db(db_connection):
+    db_connection.seed('seeds/task_seeds.sql')
+    repo = TaskRepository(db_connection)
+    with pytest.raises(ValueError) as e:
+        repo.add_task(1, '', date(2024, 11, 21), 2, 'in-progress')
+    assert str(e.value) == 'Please enter a description'
+
 
 '''
 Given a valid (task)id and new parameter

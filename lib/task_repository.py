@@ -25,6 +25,10 @@ class TaskRepository:
         
         
     def add_task(self, user_id, description, due_date, priority, status) -> None:
+        check_valid_description(description)
+        check_valid_due_date(due_date)
+        check_valid_priority(priority)
+        check_valid_status(status)
         try:
             user = UserRepository(self._connection)
             user.get_by_id(user_id)
@@ -70,4 +74,21 @@ class TaskRepository:
         except:
             raise ValueError(f'No task with id {task_id} found')
         self._connection.execute('DELETE FROM tasks WHERE id = %s', (task_id,))
+
+    # def validate_input(self, user_id, description, due_date, priority, status) -> bool:
+    #     validated = 0
+    #     forbidden_characters = '!@£#$%^&*()+=}{[]:;|<>,.?/"\'~`'
+    #     if type(user_id) == int:
+    #         validated += 1
+    #     if description.strip() and all(c not in description for c in forbidden_characters):
+    #         validated += 1
+    #     if type(due_date) == object:
+    #         validated += 1
+    #     if type(priority) == int:
+    #         validated += 1
+    #     if status == 'pending' or status == 'in-progress' or status == 'completed':
+    #         validated += 1
+    #     if validated == 5:
+    #         return True
+    #     raise ValueError
 

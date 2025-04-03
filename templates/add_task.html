@@ -26,7 +26,7 @@
                 <label for="description">Description</label>
                 <input type="text" placeholder="description" id="description" name="description" required>
                 
-                <label for="due_date">Due date</label>
+                <label for="due-date">Due date</label>
                 <input type="date" id="due-date" name="due-date" required>
                 
                 <label for="priority">priority</label>
@@ -35,6 +35,11 @@
                 <button type="submit" id="submit-task">
                     Submit
                 </button>
+                <div class="error-message">
+                    {% if error_message %}
+                    <p>Please ensure valid details are entered</p>
+                    {% endif %}
+                </div>
             </form>
         </div>
     </body>

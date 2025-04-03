@@ -32,6 +32,8 @@ def check_valid_user_id(user_id) -> None:
 def check_valid_description(description) -> None:
     if type(description) != str:
         raise TypeError('Description must be a string')
+    if not description.strip():
+        raise ValueError('Please enter a description')
     if len(description) < 3:
         raise ValueError('Invalid description')
 
